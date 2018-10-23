@@ -13610,12 +13610,18 @@ Think about the pros and cons of adding more training points based on if the tra
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
+<p><strong>Choose one of the graphs above and state the maximum depth for the model.</strong></p>
 <ol>
 <li>I choose the first graph with maximum depth (max_depth) of 1</li>
-<li>Adding more training points would not affect the score of training curve and the testing curve. As seen from the graph, the model converges at a score of close to 0.45. This is typically a very low score and demonstrates the case of underfit. In this case, the training and testing curves converge but to a very low score</li>
-<li>In general, adding more training points benefits the model if the model is close to reaching a benchmark threshold. However, this is only true if the model is a best fit and not under or over fit.</li>
+<li>The training and testing curves converge and the score of model stabilizes. However, the scores for both training and testing are low (close to 0.5). A good model should at least reach the benchmark score, which is around 0.8 to begin with.</li>
+<li>It is evident that max_depth of 1 is a case of underfit. The model is less complex and does not see relations between the features for accurate prediction.</li>
+<li>Increasing the max_depth helps in improvement of both training and testing scores. Model with max_depth of 3 have high scores of close to 0.9.</li>
+<li>However, increasing the max_depth beyond 5 is making the model complex and reaching a state of overfit to the data. This can be seen from graphs for max_depth 6 and max_depth of 10 where the training score is close to 1, testing score low and most importanty, the curves do not seem to converge</li>
 </ol>
-<p>As seen from the graphs above, graph 1 with max_depth of 1 is underfit. Hence, adding more training points will not benefit as this model will never reach the benchmark of say 80% score. Graph 3 with max_depth of 6 and graph 4 with max_depth of 10 overfit. This is because the training and testing curves do not converge and adding more training points will have no effect of the scores. For the model in graph 3 with max_depth of 3, the model is a best fit as it reaches the benchmark of say 80% score and training and testing curves converge. For this model, adding more training points may help to increase the score by 1-2% as it will see more data and generalize accordingly.</p>
+<p><strong>What happens to the score of the training curve as more training points are added? What about the testing curve?</strong></p>
+<p>Adding more training points while the model is not stable, decreases the training score asymptotically. On the other hand, the testing scores increase asymptotically when more training points are added. However, this is only true when the model is learning and the scores are not stable.</p>
+<p><strong>Would having more training points benefit the model?</strong></p>
+<p>Adding more training points would not affect final training and testing scores. As seen from all the graphs, the training and testing scores stabilize around 200 to 250 training points. Hence, adding of more training points would simply result in increased time to train the model without significant improvement in scores.</p>
 
 </div>
 </div>
@@ -13770,14 +13776,25 @@ Think about the pros and cons of adding more training points based on if the tra
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
+<p>Grid search algorithm is used to tune the hyperparameters by iteratively training on a subset of data and calculating a score. The data, hyperparameters, scoring function and the score all being mathematical entities, results of grid search highly depend on the training subset of data used. Compared to a puzzle, grid search outputs the values of hyperparameters fitting in the data puzzle. If the data is changed, the hyperparameters may change resulting in poor performance of the model on test data set.</p>
+<p>To avoid this dependency on data, shuffled data subsets of values are used while running each iteration of grid search. This is achieved using k-fold cross validation technique explained below:</p>
+<p><strong>K-fold cross validation algorithm</strong>
+    a. The data set is divided into k sub sets. k - 1 subsets then are reserved from training while 1 for cross validation
+    b. In each iteration, model is trained on k - 1 subsets and the score is calculated by on the remaining one subset known as the cross validation sub set
+    c. In some algorithms, the data is shuffled before dividing into k subsets to ensure variations in data before training
+    d. At the end, the average of scores in each iteration is calculated to note the overall performance of the model</p>
+<p>Below image is graphical representation of k-fold cross validation algorithm</p>
+<p><img src="https://udacity-github-sync-content.s3.amazonaws.com/_imgs/8650/1463631727/fig-5-full.png" alt="image.png"></p>
+<p><strong>Choosing the k value</strong></p>
+<p>A poorly chosen k value may result in conditions of high bias (underfit) or high variance (overfit)
+Three common tactics for choosing a value for k are as follows:</p>
 <ol>
-<li>Grid search algorithm is used to tune the hyperparameters by iteratively training on a subset of data and calculating a score. The data, hyperparameters, scoring function and the score all being mathematical entities, results of grid search highly depend on the training subset of data used. Compared to a puzzle, grid search outputs the values of hyperparameters fitting in the data puzzle. If the data is changed, the hyperparameters may change resulting in poor performance of the model on test data set.</li>
-<li><p>To avoid this dependency on data, shuffled data subsets of values are used while running each iteration of grid search. This is achieved using k-fold cross validation technique explained below:</p>
-<p>a. The data set is divided into k sub sets. k - 1 subsets then are reserved from training while 1 for cross validation
- b. In each iteration, model is trained on k - 1 subsets and the score is calculated by on the remaining one subset known as the cross validation sub set
- c. In some algorithms, the data is shuffled before dividing into k subsets to ensure variations in data before training</p>
-</li>
+<li>Representative: The value for k is chosen such that each train/test group of data samples is large enough to be statistically representative of the broader dataset.</li>
+<li>k=10: The value for k is fixed to 10, a value that has been found through experimentation to generally result in a model skill estimate with low bias and modest variance.</li>
+<li>k=n: The value for k is fixed to n, where n is the size of the dataset to give each test sample an opportunity to be used in the hold out dataset. This approach is called leave-one-out cross-validation.</li>
 </ol>
+<p><strong>Benefits of k-fold cross validation</strong></p>
+<p>k-fold cross validation is used to avoid overfitting when the data set is of small size. By shuffling and dividing data into subsets, the model trains ona variety of combinations and does not incline to one set of parameter. In other words, the model generalizes better even with lesser data points for training</p>
 
 </div>
 </div>
@@ -14003,6 +14020,13 @@ Predicted selling price for Client 3&#39;s home: $922,740.00
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
+<p><strong>What price would you recommend each client sell his/her home at?</strong></p>
+<p>The model predicts resonable prices for all the clients. This is explained below. I will recommend following least figure values:</p>
+<p>Client 1 - $400,000$
+Client 1 - $200,000$
+Client 1 - $900,000$</p>
+<p>Any price above these would be good negotiatble and profit the client</p>
+<p><strong>Do these prices seem reasonable given the values for the respective features?</strong></p>
 <ol>
 <li>Client 1 has a house with rooms greater than client 2 and less than client 1. Also, this house lies in a neighborhood of moderate poverty level with moderate quality of education (infered from student to teacher ratio). Hence, the price of this house ($411,931$) must lie between that of client 2 and client 3. This is evident from the output</li>
 <li>Client 2 has the smallest house in a neighborhood of high poverty level. Also, the student to teacher ratio is high infering lower quality of education. Hence, the price for this house should be the lowest. Value predicted by the model ($235,620$) supports my hypothesis from data exploration step</li>
