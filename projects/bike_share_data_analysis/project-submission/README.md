@@ -80,6 +80,7 @@ python bikeshare_2.py
 
 Screenshot of sample script output for Chicago, with filter on January and all days of week is shown below:
 
+![Sample output](https://raw.githubusercontent.com/sohonisaurabh/machine-learning/master/projects/bike_share_data_analysis/project-submission/sample-output.png)
 
 ## References:
 
