@@ -41,7 +41,6 @@ def get_filters():
     while(1):
         city = input("Which city from Chicago, New york city and Washington you want to explore?: ")
         city = city.lower().strip()
-        print(city)
         if (city in cities):
             break;
         else:
@@ -87,7 +86,7 @@ def load_data(city, month, day):
 
     showBrief = input("\nDo you want to view few lines of raw data? Enter yes or no: ")
     if(showBrief == "yes"):
-        print(df.head())
+        print("\n",df.head())
 
     #2 - Convert start time and end time to pandas date_time
     df["Start Time"] = pd.to_datetime(df['Start Time'])
