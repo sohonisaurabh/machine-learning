@@ -84,9 +84,21 @@ def load_data(city, month, day):
     #1 - Load data frame
     df = pd.read_csv(CITY_DATA[city])
 
-    showBrief = input("\nDo you want to view few lines of raw data? Enter yes or no: ")
-    if(showBrief == "yes"):
-        print("\n",df.head())
+    showBriefRecordCounter = 0;
+    dfLength = len(df.index)
+    print(dfLength)
+    while(1):
+        showBrief = input("\nDo you want to view few lines of raw data? Enter yes or no: ")
+        if(showBrief == "yes"):
+            if(showBriefRecordCounter > dfLength):
+                print("\nYou have reached the end of file")
+                break;
+            else:
+                print("\n",df.iloc[showBriefRecordCounter: (showBriefRecordCounter + 5) if (showBriefRecordCounter + 5) <= dfLength else dfLength])
+                showBriefRecordCounter += 5
+        else:
+            break;
+    
 
     #2 - Convert start time and end time to pandas date_time
     df["Start Time"] = pd.to_datetime(df['Start Time'])
