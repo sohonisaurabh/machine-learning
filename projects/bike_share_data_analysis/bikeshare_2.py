@@ -86,11 +86,10 @@ def load_data(city, month, day):
 
     showBriefRecordCounter = 0;
     dfLength = len(df.index)
-    print(dfLength)
     while(1):
         showBrief = input("\nDo you want to view few lines of raw data? Enter yes or no: ")
         if(showBrief == "yes"):
-            if(showBriefRecordCounter > dfLength):
+            if(showBriefRecordCounter >= dfLength):
                 print("\nYou have reached the end of file")
                 break;
             else:
